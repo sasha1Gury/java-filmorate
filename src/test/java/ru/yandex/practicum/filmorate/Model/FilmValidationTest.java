@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FilmValidationTest {
     private final LocalValidatorFactoryBean  validator = new LocalValidatorFactoryBean();
+
     @BeforeEach
     public void setUp() {
         validator.afterPropertiesSet();
