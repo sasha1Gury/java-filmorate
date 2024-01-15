@@ -39,12 +39,11 @@ public class FilmController {
         films.put(film.getId(), film);
         log.info("Создан фильм " + film.getName());
         return film;
-
     }
 
     @PutMapping
-    public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException, NewFilmException{
-        if(films.containsValue(film)){
+    public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException, NewFilmException {
+        if(films.containsValue(film)) {
             throw new NewFilmException(film.getName());
         }
         if (!isAfter1895(film)) {
