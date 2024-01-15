@@ -17,6 +17,7 @@ import java.util.Map;
 public class UserController {
     Map<Integer, User> users = new HashMap<>();
     private int idCounter = 1;
+
     @GetMapping
     public List<User> getAllUsers() {
         return new ArrayList<>(users.values());
@@ -39,7 +40,7 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) throws NewUserException {
-        if(users.containsValue(user)){
+        if (users.containsValue(user)) {
             throw new NewUserException(user.getName());
         }
         log.info("Пользователь " + users.get(user.getId()).getLogin() +  " перезаписан на " + user.getLogin());
