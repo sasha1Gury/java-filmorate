@@ -43,7 +43,7 @@ public class FilmController {
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException, NewFilmException {
-        if(films.containsValue(film)) {
+        if (films.containsValue(film)) {
             throw new NewFilmException(film.getName());
         }
         if (!isAfter1895(film)) {
