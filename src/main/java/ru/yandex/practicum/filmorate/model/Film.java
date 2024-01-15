@@ -1,10 +1,11 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.time.Duration;
 import java.time.LocalDate;
 
@@ -12,13 +13,15 @@ import java.time.LocalDate;
  * Film.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Film {
-    private int id;
+    @EqualsAndHashCode.Exclude private int id;
     @NotBlank
     private String name;
-    @Max(200)
+    @Size(min = 1, max = 200)
     private String description;
     private LocalDate releaseDate;
     @Positive
-    private Duration duration;
+    private int duration;
 }
