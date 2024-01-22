@@ -28,11 +28,11 @@ public class FilmController {
     @PostMapping
     public Film addFilm(@Valid @RequestBody Film film) throws ValidationException, NewFilmException {
         if (!isAfter1895(film)) {
-            log.warn("Фильм + " + film.getName() + " не создан");
+            log.warn("Неверная дата фильма " + film.getName());
             throw new ValidationException();
         }
         if (films.containsValue(film)) {
-            log.warn("Фильм " + film.getName() + " не создан");
+            log.warn("Фильм " + film.getName() + " уже существует");
             throw new NewFilmException(film.getName());
         }
         film.setId(idCounter++);
@@ -47,7 +47,7 @@ public class FilmController {
             throw new NewFilmException(film.getName());
         }
         if (!isAfter1895(film)) {
-            log.warn("Фильм + " + film.getName() + " не создан");
+            log.warn("Неверная дата фильма " + film.getName());
             throw new ValidationException();
         }
         log.info("Фильм " + films.get(film.getId()).getName() +  " перезаписан на " + film.getName());

@@ -29,7 +29,7 @@ public class UserController {
             user.setName(user.getLogin());
         }
         if (users.containsValue(user)) {
-            log.warn("пользователь + " + user.getLogin() + " не создан");
+            log.warn("Пользователь + " + user.getLogin() + " уже существует");
             throw new NewUserException(user.getLogin());
         }
         user.setId(idCounter++);
