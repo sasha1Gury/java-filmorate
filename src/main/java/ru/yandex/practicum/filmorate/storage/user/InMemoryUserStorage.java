@@ -13,7 +13,7 @@ import java.util.Map;
 @Slf4j
 @Component
 public class InMemoryUserStorage implements UserStorage {
-    Map<Integer, User> users = new HashMap<>();
+    Map<Long, User> users = new HashMap<>();
     private int idCounter = 1;
 
     public List<User> getAllUsers() {
@@ -43,9 +43,13 @@ public class InMemoryUserStorage implements UserStorage {
         return user;
     }
 
-    public void deleteUser(int id) {
+    public void deleteUser(long id) {
         if (users.containsKey(id)) {
             users.remove(id);
         } else log.warn("пользователя с id = " + id + " не существует");
+    }
+
+    public User getUserById(long id) {
+        return users.get(id);
     }
 }
