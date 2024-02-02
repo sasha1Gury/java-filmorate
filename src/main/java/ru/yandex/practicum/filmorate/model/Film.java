@@ -25,4 +25,16 @@ public class Film {
     @Positive
     private int duration;
     private Set<Long> likes;
+
+    public void addLike(long id) {
+        likes.add(id);
+    }
+
+    public void deleteLike(long id) {
+        likes.remove(id);
+    }
+
+    public int getLikeCount() {
+        return likes.size();
+    }
 }
