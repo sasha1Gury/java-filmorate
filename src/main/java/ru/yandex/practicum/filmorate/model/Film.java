@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Film.
@@ -23,4 +24,5 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private int duration;
+    private Set<Long> likes;
 }
