@@ -1,7 +1,10 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+
+import java.util.List;
 
 @Service
 public class FilmService {
@@ -11,6 +14,20 @@ public class FilmService {
         this.filmStorage = filmStorage;
     }
 
+    public Film addFilm(Film film) {
+        return filmStorage.addFilm(film);
+    }
 
+    public List<Film> getAllFilms() {
+        return filmStorage.getAllFilms();
+    }
+
+    public Film updateFilm(Film film) {
+        return filmStorage.updateFilm(film);
+    }
+
+    public void deleteFilm(long id) {
+        filmStorage.deleteFilm(id);
+    }
 
 }
