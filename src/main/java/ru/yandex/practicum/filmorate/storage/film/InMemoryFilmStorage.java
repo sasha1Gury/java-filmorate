@@ -60,4 +60,8 @@ public class InMemoryFilmStorage implements FilmStorage {
         LocalDate date = LocalDate.of(1895, 12, 28);
         return !film.getReleaseDate().isAfter(date);
     }
+
+    public Film getFilmById(Long id) {
+        return films.get(id);
+    }
 }
