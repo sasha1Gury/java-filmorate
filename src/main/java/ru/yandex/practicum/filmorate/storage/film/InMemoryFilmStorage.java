@@ -23,7 +23,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         return new ArrayList<>(films.values());
     }
 
-    public Film addFilm(@Valid Film film) throws ValidationException, NewFilmException {
+    public Film addFilm(Film film) throws ValidationException, NewFilmException {
         if (isBefore1895(film)) {
             log.warn("Неверная дата фильма " + film.getName());
             throw new ValidationException();
