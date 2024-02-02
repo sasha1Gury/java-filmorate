@@ -9,4 +9,5 @@ public interface FilmStorage {
     public Film updateFilm(Film film);
     public void deleteFilm(long id);
     public List<Film> getAllFilms();
+    public Film getFilmById(Long id);
 }
