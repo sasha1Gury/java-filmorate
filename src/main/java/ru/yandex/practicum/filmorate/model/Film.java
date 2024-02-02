@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Film {
-    @EqualsAndHashCode.Exclude private int id;
+    @EqualsAndHashCode.Exclude private long id;
     @NotBlank
     private String name;
     @Size(min = 1, max = 200)
