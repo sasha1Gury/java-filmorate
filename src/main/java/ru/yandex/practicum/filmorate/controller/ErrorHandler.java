@@ -31,13 +31,13 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleNewFilmException(final NewFilmException e) {
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleNewUserException(final NewUserException e) {
         return new ErrorResponse(e.getMessage());
     }
