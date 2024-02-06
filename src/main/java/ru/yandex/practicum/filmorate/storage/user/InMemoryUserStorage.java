@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.storage.user;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NewUserException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class InMemoryUserStorage implements UserStorage {
         }
         if (users.containsValue(user)) {
             log.warn("Пользователь + " + user.getLogin() + " уже существует");
-            throw new NewUserException(user.getLogin());
+            throw new NewUserException(String.format("Пользователь + " + user.getLogin() + " уже существует"));
         }
         user.setId(idCounter++);
         users.put(user.getId(), user);
@@ -36,7 +37,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     public User updateUser(User user) throws NewUserException {
         if (users.containsValue(user)) {
-            throw new NewUserException(user.getName());
+            throw new NewUserException(String.format(user.getName()));
         }
         log.info("Пользователь " + users.get(user.getId()).getLogin() +  " перезаписан на " + user.getLogin());
         users.put(user.getId(), user);
@@ -46,10 +47,18 @@ public class InMemoryUserStorage implements UserStorage {
     public void deleteUser(long id) {
         if (users.containsKey(id)) {
             users.remove(id);
-        } else log.warn("пользователя с id = " + id + " не существует");
+        } else {
+            log.warn("пользователя с id = " + id + " не существует");
+            throw new NotFoundException(String.format("пользователя с id = " + id + " не существует"));
+        }
     }
 
     public User getUserById(long id) {
-        return users.get(id);
+        if (users.containsKey(id)) {
+            return users.get(id);
+        } else {
+            log.warn("пользователя с id = " + id + " не существует");
+            throw new NotFoundException(String.format("пользователя с id = " + id + " не существует"));
+        }
     }
 }
