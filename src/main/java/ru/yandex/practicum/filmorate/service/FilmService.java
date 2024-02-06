@@ -16,6 +16,10 @@ public class FilmService {
         this.filmStorage = filmStorage;
     }
 
+    public Film getFilmById(long id) {
+        return filmStorage.getFilmById(id);
+    }
+
     public Film addFilm(Film film) {
         return filmStorage.addFilm(film);
     }
@@ -39,11 +43,15 @@ public class FilmService {
          }
      }
 
-    public List<Film> getTop10Films() {
+    public List<Film> getTop10Films(int count) {
         return filmStorage.getAllFilms().stream()
-                .sorted(Comparator.comparingInt(film -> -film.getLikeCount()))
-                .limit(10)
+                .sorted(Comparator.comparingInt(Film::getLikeCount).reversed())
+                .limit(count)
                 .collect(Collectors.toList());
+    }
+
+    public List<Film> getTop10Films() {
+        return getTop10Films(10);
     }
 
     public void unlikeFilm(Long filmId, Long userId) {
