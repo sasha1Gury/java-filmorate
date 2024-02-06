@@ -19,6 +19,10 @@ public class UserService {
         this.userStorage = userStorage;
     }
 
+    public User getUserById(long id) {
+        return userStorage.getUserById(id);
+    }
+
     public User addUser(User user) {
         return userStorage.addUser(user);
     }
@@ -29,6 +33,10 @@ public class UserService {
 
     public void deleteUser(long id) {
         userStorage.deleteUser(id);
+    }
+
+    public List<User> getAllUsers() {
+        return userStorage.getAllUsers();
     }
 
     public void addFriend(Long id, Long friendId) {
