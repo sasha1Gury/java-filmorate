@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.storage.film;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NewFilmException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -22,14 +23,18 @@ public class InMemoryFilmStorage implements FilmStorage {
         return new ArrayList<>(films.values());
     }
 
-    public Film addFilm(Film film) throws ValidationException, NewFilmException {
+    public Film addFilm(Film film) {
         if (isBefore1895(film)) {
             log.warn("Неверная дата фильма " + film.getName());
-            throw new ValidationException();
+            throw new ValidationException(String.format(
+                    "Неверная дата фильма  %s",
+                    film.getName()));
         }
         if (films.containsValue(film)) {
             log.warn("Фильм " + film.getName() + " уже существует");
-            throw new NewFilmException(film.getName());
+            throw new NewFilmException(String.format(
+                    "Фильм %s уже существует",
+                    film.getName()));
         }
         film.setId(idCounter++);
         films.put(film.getId(), film);
@@ -43,7 +48,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         }
         if (isBefore1895(film)) {
             log.warn("Неверная дата фильма " + film.getName());
-            throw new ValidationException();
+            throw new ValidationException(String.format("Неверная дата фильма " + film.getName()));
         }
         log.info("Фильм " + films.get(film.getId()).getName() +  " перезаписан на " + film.getName());
         films.put(film.getId(), film);
@@ -53,7 +58,10 @@ public class InMemoryFilmStorage implements FilmStorage {
     public void deleteFilm(long id) {
         if (films.containsKey(id)) {
             films.remove(id);
-        } else log.warn("фильма с id = " + id + " не существует");
+        } else {
+            log.warn("фильма с id = " + id + " не существует");
+            throw new NotFoundException("фильма с id = " + id + " не существует");
+        }
     }
 
     private boolean isBefore1895(Film film) {
@@ -62,6 +70,11 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     public Film getFilmById(Long id) {
-        return films.get(id);
+        if (films.containsKey(id)) {
+            return films.get(id);
+        } else {
+            log.warn("фильма с id = " + id + " не существует");
+            throw new NotFoundException(String.format("фильма с id = " + id + " не существует"));
+        }
     }
 }
