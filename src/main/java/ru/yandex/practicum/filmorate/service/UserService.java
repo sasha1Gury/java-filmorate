@@ -37,8 +37,10 @@ public class UserService {
     }
 
     public void addFriend(Long id, Long friendId) {
-        userStorage.getUserById(id).addFriend(friendId);
-        userStorage.getUserById(friendId).addFriend(id);
+        User user = userStorage.getUserById(id);
+        User userFriend = userStorage.getUserById(friendId);
+        user.addFriend(friendId);
+        userFriend.addFriend(id);
     }
 
     public void deleteFriend(Long id, Long friendId) {
@@ -46,19 +48,20 @@ public class UserService {
         userStorage.getUserById(friendId).deleteFriend(id);
     }
 
-    public List<Long> getAllFriend(Long id) {
-        return new ArrayList<>(userStorage.getUserById(id).getFriends());
+    public List<User> getAllFriend(Long id) {
+        User user = userStorage.getUserById(id);
+        return userStorage.getUserFriends(user);
     }
 
-    public List<Long> findCommonFriends(Long id, Long friendId) {
-        Set<Long> commonFriends = new HashSet<>();
+    public List<User> findCommonFriends(Long id, Long friendId) {
+        Set<User> commonFriends = new HashSet<>();
 
         User user1 = userStorage.getUserById(id);
         User user2 = userStorage.getUserById(friendId);
 
         if (user1 != null && user2 != null) {
-            commonFriends.addAll(user1.getFriends());
-            commonFriends.retainAll(user2.getFriends());
+            commonFriends.addAll(userStorage.getUserFriends(user1));
+            commonFriends.retainAll(userStorage.getUserFriends(user2));
         }
 
         if (commonFriends.isEmpty()) {
