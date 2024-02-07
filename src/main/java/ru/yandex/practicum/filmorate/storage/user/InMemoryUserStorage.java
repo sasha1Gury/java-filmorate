@@ -6,10 +6,7 @@ import ru.yandex.practicum.filmorate.exception.NewUserException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -30,6 +27,7 @@ public class InMemoryUserStorage implements UserStorage {
             throw new NewUserException(String.format("Пользователь + " + user.getLogin() + " уже существует"));
         }
         user.setId(idCounter++);
+        user.setFriends(new HashSet<>());
         users.put(user.getId(), user);
         log.info("Создан пользователь " + user.getLogin());
         return user;
