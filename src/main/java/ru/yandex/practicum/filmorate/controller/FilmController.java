@@ -20,7 +20,7 @@ public class FilmController {
         this.filmService = filmService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Film getFilmById(@PathVariable("id") long id) {
         return filmService.getFilmById(id);
     }
@@ -40,17 +40,17 @@ public class FilmController {
         return filmService.updateFilm(film);
     }
 
-    @PutMapping("/films/{id}/like/{userId}")
+    @PutMapping("/{id}/like/{userId}")
     public void likeFilm(@PathVariable("id") long id, @PathVariable("userId") long userId) {
         filmService.likeFilm(id, userId);
     }
 
-    @DeleteMapping("/films/{id}/like/{userId}")
+    @DeleteMapping("/{id}/like/{userId}")
     public void unlikeFilm(@PathVariable("id") long id, @PathVariable("userId") long userId) {
         filmService.unlikeFilm(id, userId);
     }
 
-    @GetMapping("/films/popular")
+    @GetMapping("/popular")
     public List<Film> getTop10Films(@RequestParam(required = false) int count) {
         return filmService.getTop10Films(count);
     }
