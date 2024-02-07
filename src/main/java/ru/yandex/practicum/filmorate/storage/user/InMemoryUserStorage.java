@@ -34,11 +34,12 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public User updateUser(User user) throws NewUserException {
-        if (users.containsValue(user)) {
-            throw new NewUserException(String.format(user.getName()));
-        }
-        log.info("Пользователь " + users.get(user.getId()).getLogin() +  " перезаписан на " + user.getLogin());
-        users.put(user.getId(), user);
+         if (users.containsKey(user.getId())) {
+             user.setFriends(new HashSet<>());
+             users.put(user.getId(), user);
+             log.info("Пользователь " + users.get(user.getId()).getLogin() +  " перезаписан на " + user.getLogin());
+         } else throw new NotFoundException(String.format("Пользователь с id " + user.getId() + " не найден "));
+
         return user;
     }
 
@@ -58,5 +59,15 @@ public class InMemoryUserStorage implements UserStorage {
             log.warn("пользователя с id = " + id + " не существует");
             throw new NotFoundException(String.format("пользователя с id = " + id + " не существует"));
         }
+    }
+
+    public List<User> getUserFriends(User user) {
+        List<User> friends = new ArrayList<>();
+        List<Long> friendsId = new ArrayList<>(user.getFriends());
+        for (long i : friendsId) {
+            User user1 = getUserById(i);
+            friends.add(user1);
+        }
+        return friends;
     }
 }

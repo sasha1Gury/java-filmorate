@@ -9,10 +9,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/users")
@@ -56,12 +53,12 @@ public class UserController {
     }
     //GET /users/{id}/friends , GET /users/{id}/friends/common/{otherId}
     @GetMapping("/{id}/friends")
-    public List<Long> getAllFriend(@PathVariable("id") long id) {
+    public List<User> getAllFriend(@PathVariable("id") long id) {
         return userService.getAllFriend(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<Long> findCommonFriends(@PathVariable("id") long id, @PathVariable("otherId") long otherId) {
+    public List<User> findCommonFriends(@PathVariable("id") long id, @PathVariable("otherId") long otherId) {
         return userService.findCommonFriends(id, otherId);
     }
 
