@@ -36,8 +36,8 @@ public class InMemoryUserStorage implements UserStorage {
     public User updateUser(User user) throws NewUserException {
          if (users.containsKey(user.getId())) {
              user.setFriends(new HashSet<>());
-             users.put(user.getId(), user);
              log.info("Пользователь " + users.get(user.getId()).getLogin() +  " перезаписан на " + user.getLogin());
+             users.put(user.getId(), user);
          } else throw new NotFoundException(String.format("Пользователь с id " + user.getId() + " не найден "));
 
         return user;

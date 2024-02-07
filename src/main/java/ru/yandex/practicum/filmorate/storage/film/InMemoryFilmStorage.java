@@ -48,8 +48,12 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.warn("Неверная дата фильма " + film.getName());
             throw new ValidationException(String.format("Неверная дата фильма " + film.getName()));
         }
-        log.info("Фильм " + films.get(film.getId()).getName() +  " перезаписан на " + film.getName());
-        films.put(film.getId(), film);
+        if (films.containsKey(film.getId())) {
+            film.setLikes(new HashSet<>());
+            log.info("Фильм " + films.get(film.getId()).getName() +  " перезаписан на " + film.getName());
+            films.put(film.getId(), film);
+        } else throw new NotFoundException(String.format("Фильм с id " + film.getId() + " не найден "));
+
         return film;
     }
 
