@@ -3,8 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.NewUserException;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
@@ -51,7 +49,7 @@ public class UserController {
     public void deleteFriend(@PathVariable("id") long id, @PathVariable("friendId") long friendId) {
         userService.deleteFriend(id, friendId);
     }
-    //GET /users/{id}/friends , GET /users/{id}/friends/common/{otherId}
+
     @GetMapping("/{id}/friends")
     public List<User> getAllFriend(@PathVariable("id") long id) {
         return userService.getAllFriend(id);

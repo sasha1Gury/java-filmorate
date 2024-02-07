@@ -63,6 +63,5 @@ public class FilmService {
         if (film.getLikes().contains(userId)) {
             film.deleteLike(userId);
         } else throw new NotFoundException(String.format("Пользователь с id " + userId + " не ставил лайк"));
-
     }
 }

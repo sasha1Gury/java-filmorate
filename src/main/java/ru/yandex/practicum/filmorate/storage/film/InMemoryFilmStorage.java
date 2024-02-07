@@ -27,16 +27,19 @@ public class InMemoryFilmStorage implements FilmStorage {
                     "Неверная дата фильма  %s",
                     film.getName()));
         }
+
         if (films.containsValue(film)) {
             log.warn("Фильм " + film.getName() + " уже существует");
             throw new NewFilmException(String.format(
                     "Фильм %s уже существует",
                     film.getName()));
         }
+
         film.setId(idCounter++);
         film.setLikes(new HashSet<>());
         films.put(film.getId(), film);
         log.info("Создан фильм " + film.getName());
+
         return film;
     }
 
@@ -44,10 +47,12 @@ public class InMemoryFilmStorage implements FilmStorage {
         if (films.containsValue(film)) {
             throw new NewFilmException(film.getName());
         }
+
         if (isBefore1895(film)) {
             log.warn("Неверная дата фильма " + film.getName());
             throw new ValidationException(String.format("Неверная дата фильма " + film.getName()));
         }
+
         if (films.containsKey(film.getId())) {
             film.setLikes(new HashSet<>());
             log.info("Фильм " + films.get(film.getId()).getName() +  " перезаписан на " + film.getName());
