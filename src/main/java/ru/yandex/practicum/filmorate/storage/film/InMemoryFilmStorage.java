@@ -13,7 +13,7 @@ import java.util.*;
 @Slf4j
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
-    Map<Long, Film> films = new HashMap<>();
+    private final Map<Long, Film> films = new HashMap<>();
     private int idCounter = 1;
 
     public List<Film> getAllFilms() {
@@ -77,11 +77,11 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     public Film getFilmById(Long id) {
-        if (films.containsKey(id)) {
-            return films.get(id);
-        } else {
+        if (films.get(id) == null) {
             log.warn("фильма с id = " + id + " не существует");
             throw new NotFoundException(String.format("фильма с id = " + id + " не существует"));
         }
+
+        return films.get(id);
     }
 }

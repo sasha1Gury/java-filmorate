@@ -44,15 +44,11 @@ public class FilmService {
          }
      }
 
-    public List<Film> getTop10Films(int count) {
+    public List<Film> getPopular(int count) {
         return filmStorage.getAllFilms().stream()
                 .sorted(Comparator.comparingInt(Film::getLikeCount).reversed())
                 .limit(count)
                 .collect(Collectors.toList());
-    }
-
-    public List<Film> getTop10Films() {
-        return getTop10Films(10);
     }
 
     public void unlikeFilm(Long filmId, Long userId) {

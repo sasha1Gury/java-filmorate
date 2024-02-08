@@ -56,12 +56,12 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public User getUserById(long id) {
-        if (users.containsKey(id)) {
-            return users.get(id);
-        } else {
+        if (users.get(id) == null) {
             log.warn("пользователя с id = " + id + " не существует");
             throw new NotFoundException(String.format("пользователя с id = " + id + " не существует"));
         }
+
+        return users.get(id);
     }
 
     public List<User> getUserFriends(User user) {

@@ -32,11 +32,13 @@ public class FilmController {
 
     @PostMapping
     public Film addFilm(@Valid @RequestBody Film film) {
+        log.info("Создан фильм " + film.getName());
         return filmService.addFilm(film);
     }
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
+        log.info("фильм изменен " + film.getName());
         return filmService.updateFilm(film);
     }
 
@@ -51,10 +53,8 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getTop10Films(@RequestParam(required = false) Integer count) {
-        if (count == null) {
-            return filmService.getTop10Films();
-        } else return filmService.getTop10Films(count);
+    public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
+        return filmService.getPopular(count);
     }
 
 }
