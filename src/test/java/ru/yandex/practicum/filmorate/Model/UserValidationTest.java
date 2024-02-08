@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.ConstraintViolation;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 public class UserValidationTest {
@@ -20,7 +21,7 @@ public class UserValidationTest {
 
     @Test
     public void validationTestValidUser() {
-        User validUser = new User(1, "test@example.com", "Login", "John Doe", LocalDate.now());
+        User validUser = new User(1, "test@example.com", "Login", "John Doe", LocalDate.now(), new HashSet<>());
 
         Set<ConstraintViolation<User>> violations = validator.validate(validUser);
         Assertions.assertTrue(violations.isEmpty());
@@ -28,7 +29,7 @@ public class UserValidationTest {
 
     @Test
     public void validationTestInvalidEmail() {
-        User invalidUser = new User(1, "invalidEmail", "Login", "John Doe", LocalDate.now());
+        User invalidUser = new User(1, "invalidEmail", "Login", "John Doe", LocalDate.now(), new HashSet<>());
 
         Set<ConstraintViolation<User>> violations = validator.validate(invalidUser);
         Assertions.assertEquals(1, violations.size());
@@ -37,7 +38,7 @@ public class UserValidationTest {
 
     @Test
     public void validationTestBlankLogin() {
-        User invalidUser = new User(1, "test@example.com", "", "John Doe", LocalDate.now());
+        User invalidUser = new User(1, "test@example.com", "", "John Doe", LocalDate.now(), new HashSet<>());
 
         Set<ConstraintViolation<User>> violations = validator.validate(invalidUser);
         Assertions.assertEquals(1, violations.size());
@@ -47,7 +48,7 @@ public class UserValidationTest {
     @Test
     public void validationTestInvalidBirthday() {
         User invalidUser = new User(1, "test@example.com", "Login", "John Doe",
-                LocalDate.of(2050, 1, 1));
+                LocalDate.of(2050, 1, 1), new HashSet<>());
 
         Set<ConstraintViolation<User>> violations = validator.validate(invalidUser);
         Assertions.assertEquals(1, violations.size());

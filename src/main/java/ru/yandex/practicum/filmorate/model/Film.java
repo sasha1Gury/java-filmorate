@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Film.
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Film {
-    @EqualsAndHashCode.Exclude private int id;
+    @EqualsAndHashCode.Exclude private long id;
     @NotBlank
     private String name;
     @Size(min = 1, max = 200)
@@ -23,4 +24,17 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private int duration;
+    private Set<Long> likes;
+
+    public void addLike(long id) {
+        likes.add(id);
+    }
+
+    public void deleteLike(long id) {
+        likes.remove(id);
+    }
+
+    public int getLikeCount() {
+        return likes.size();
+    }
 }

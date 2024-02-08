@@ -1,17 +1,15 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 public class User {
-    @EqualsAndHashCode.Exclude private int id;
+    @EqualsAndHashCode.Exclude private long id;
     @Email
     private String email;
     @NonNull
@@ -20,4 +18,13 @@ public class User {
     private String name;
     @PastOrPresent
     private LocalDate birthday;
+    private Set<Long> friends;
+
+    public void addFriend(Long id) {
+        friends.add(id);
+    }
+
+    public void deleteFriend(Long id) {
+        friends.remove(id);
+    }
 }
