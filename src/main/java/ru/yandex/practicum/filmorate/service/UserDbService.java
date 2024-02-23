@@ -43,4 +43,16 @@ public class UserDbService {
     public void addFriend(Long id, Long friendId) {
         friendsDbStorage.addFriend(id, friendId);
     }
+
+    public void deleteFriend(Long id, Long friendId) {
+        friendsDbStorage.deleteFriend(id, friendId);
+    }
+
+    public List<User> getAllFriend(Long id) {
+        return friendsDbStorage.getAllFriend(id);
+    }
+
+    public List<User> findCommonFriends(Long id, Long friendId) {
+        return friendsDbStorage.findCommonFriends(id, friendId);
+    }
 }
