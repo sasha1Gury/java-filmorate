@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NewUserException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -10,6 +11,7 @@ import java.util.*;
 
 @Slf4j
 @Component
+@Qualifier("InMemoryUserStorage")
 public class InMemoryUserStorage implements UserStorage {
     Map<Long, User> users = new HashMap<>();
     private int idCounter = 1;
@@ -29,7 +31,7 @@ public class InMemoryUserStorage implements UserStorage {
         }
 
         user.setId(idCounter++);
-        user.setFriends(new HashSet<>());
+        //user.setFriends(new HashSet<>());
         users.put(user.getId(), user);
         log.info("Создан пользователь " + user.getLogin());
 
@@ -38,7 +40,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     public User updateUser(User user) throws NewUserException {
          if (users.containsKey(user.getId())) {
-             user.setFriends(new HashSet<>());
+             //user.setFriends(new HashSet<>());
              log.info("Пользователь " + users.get(user.getId()).getLogin() +  " перезаписан на " + user.getLogin());
              users.put(user.getId(), user);
          } else throw new NotFoundException(String.format("Пользователь с id " + user.getId() + " не найден "));
@@ -64,14 +66,14 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(id);
     }
 
-    public List<User> getUserFriends(User user) {
-        List<User> friends = new ArrayList<>();
-        List<Long> friendsId = new ArrayList<>(user.getFriends());
-        for (long i : friendsId) {
-            User user1 = getUserById(i);
-            friends.add(user1);
-        }
+    //public List<User> getUserFriends(User user) {
+        //List<User> friends = new ArrayList<>();
+        //List<Long> friendsId = new ArrayList<>(user.getFriends());
+        //for (long i : friendsId) {
+        //    User user1 = getUserById(i);
+        //    friends.add(user1);
+        //}
 
-        return friends;
-    }
+        //return friends;
+    //}
 }
