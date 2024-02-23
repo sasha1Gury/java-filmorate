@@ -58,10 +58,10 @@ public class UserDbStorage implements UserStorage {
                 "\"login\" = ?, \"name\" = ?, \"birthday\" = ? " +
                 "WHERE \"user_id\" = ?;";
 
-        int rowsAffected = jdbcTemplate.update(sqlQuery,
+        int rowsNum = jdbcTemplate.update(sqlQuery,
                 user.getEmail(), user.getLogin(), user.getName(), Date.valueOf(user.getBirthday()), user.getId());
 
-        if (rowsAffected < 1) {
+        if (rowsNum < 1) {
             throw new NotFoundException(user.getId() + " не найден");
         }
 
