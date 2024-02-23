@@ -61,3 +61,5 @@ ALTER TABLE
     "likes" ADD CONSTRAINT "likes_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "Users"("user_id");
 ALTER TABLE
     "Film" ADD CONSTRAINT "film_rating_id_foreign" FOREIGN KEY("rating_id") REFERENCES "rating"("rating_id");
+ALTER TABLE
+ "Users" ALTER COLUMN "user_id" BIGINT AUTO_INCREMENT;
