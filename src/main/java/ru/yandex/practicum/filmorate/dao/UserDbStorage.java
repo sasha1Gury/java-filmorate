@@ -27,6 +27,9 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User addUser(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
         String sqlQuery = "INSERT INTO \"Users\" (\"email\", \"login\", \"name\", \"birthday\") VALUES (?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -67,7 +70,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public void deleteUser(long id) {
-        String sqlQuery = "DELETE FROM \"Users\" where user_id = ?";
+        String sqlQuery = "DELETE FROM \"Users\" where \"user_id\" = ?";
 
         jdbcTemplate.update(sqlQuery, id);
 
@@ -75,9 +78,12 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User getUserById(long id) {
-        String sqlQuery = "SELECT * FROM \"Users\" WHERE user_id = ?";
-
-        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id);
+        String sqlQuery = "SELECT * FROM \"Users\" WHERE \"user_id\" = ?";
+        try {
+            return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id);
+        } catch (RuntimeException e) {
+            throw new NotFoundException("id - " + id + " не найден");
+        }
     }
 
     @Override

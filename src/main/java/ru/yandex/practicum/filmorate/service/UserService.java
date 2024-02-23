@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
@@ -9,11 +10,11 @@ import java.util.*;
 
 @Service
 public class UserService {
-    private final UserStorage userStorage;
+    /*private final UserStorage userStorage;
 
     @Autowired
-    public UserService(UserStorage userStorage) {
-        this.userStorage = userStorage;
+    public UserService(@Qualifier("InMemoryUserStorage") UserStorage InMemoryUserStorage) {
+        this.userStorage = InMemoryUserStorage;
     }
 
     public User getUserById(long id) {
@@ -69,5 +70,5 @@ public class UserService {
         } else {
             return new ArrayList<>(commonFriends);
         }
-    }
+    }*/
 }
