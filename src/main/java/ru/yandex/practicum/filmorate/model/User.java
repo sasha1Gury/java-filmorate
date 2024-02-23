@@ -18,13 +18,4 @@ public class User {
     private String name;
     @PastOrPresent
     private LocalDate birthday;
-    private Set<Long> friends;
-
-    public void addFriend(Long id) {
-        friends.add(id);
-    }
-
-    public void deleteFriend(Long id) {
-        friends.remove(id);
-    }
 }
