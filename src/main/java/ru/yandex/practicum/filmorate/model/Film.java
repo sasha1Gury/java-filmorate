@@ -24,7 +24,9 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private int duration;
-    private Set<Long> likes;
+    private Integer rate;
+    private Set<Long> rating;
+    /*private Set<Long> likes;
 
     public void addLike(long id) {
         likes.add(id);
@@ -36,5 +38,5 @@ public class Film {
 
     public int getLikeCount() {
         return likes.size();
-    }
+    }*/
 }
