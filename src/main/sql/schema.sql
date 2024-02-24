@@ -18,14 +18,12 @@ ALTER TABLE
     "Genre" ADD PRIMARY KEY("genre_id");
 CREATE TABLE IF NOT EXISTS "Film"(
     "film_id" BIGINT NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
     "description" VARCHAR(255) NOT NULL,
     "release_date" DATE NOT NULL,
     "duration" INTEGER NOT NULL,
     "rating_id" BIGINT NOT NULL
 );
-ALTER TABLE "Film"
-ADD COLUMN "rate" INTEGER;
 ALTER TABLE
     "Film" ADD PRIMARY KEY("film_id");
 CREATE TABLE IF NOT EXISTS "rating"(
@@ -63,5 +61,8 @@ ALTER TABLE
     "likes" ADD CONSTRAINT "likes_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "Users"("user_id");
 ALTER TABLE
     "Film" ADD CONSTRAINT "film_rating_id_foreign" FOREIGN KEY("rating_id") REFERENCES "rating"("rating_id");
-ALTER TABLE
- "Users" ALTER COLUMN "user_id" BIGINT AUTO_INCREMENT;
+ALTER TABLE "Users" ALTER COLUMN "user_id" BIGINT AUTO_INCREMENT;
+ALTER TABLE "Film" ALTER COLUMN "film_id" BIGINT AUTO_INCREMENT;
+ALTER TABLE "Genre" ALTER COLUMN "genre_id" BIGINT AUTO_INCREMENT;
+ALTER TABLE "rating" ALTER COLUMN "rating_id" BIGINT AUTO_INCREMENT;
+ALTER TABLE "film_genre" ALTER COLUMN "film_genre_id" BIGINT AUTO_INCREMENT;
