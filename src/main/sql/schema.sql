@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS "Film"(
     "duration" INTEGER NOT NULL,
     "rating_id" BIGINT NOT NULL
 );
+ALTER TABLE "Film"
+ADD COLUMN "rate" INTEGER;
 ALTER TABLE
     "Film" ADD PRIMARY KEY("film_id");
 CREATE TABLE IF NOT EXISTS "rating"(
