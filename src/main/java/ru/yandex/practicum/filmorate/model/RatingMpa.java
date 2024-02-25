@@ -11,6 +11,7 @@ public enum RatingMpa {
     RatingMpa(String displayName) {
         this.displayName = displayName;
     }
+
     @Override
     public String toString() {
         return displayName;
