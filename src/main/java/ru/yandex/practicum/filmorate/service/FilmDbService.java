@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.dao.LikeDbStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
@@ -11,9 +12,11 @@ import java.util.List;
 public class FilmDbService {
 
     private final FilmStorage filmDbStorage;
+    private final LikeDbStorage likeDbStorage;
 
-    public FilmDbService(@Qualifier("FilmDbStorage") FilmStorage filmDbStorage) {
+    public FilmDbService(@Qualifier("FilmDbStorage") FilmStorage filmDbStorage, LikeDbStorage likeDbStorage) {
         this.filmDbStorage = filmDbStorage;
+        this.likeDbStorage = likeDbStorage;
     }
 
     public Film addFilm(Film film) {
@@ -38,5 +41,13 @@ public class FilmDbService {
 
     public List<Film> getPopular(int count) {
         return filmDbStorage.getPopular(count);
+    }
+
+    public void likeFilm(Long filmId, Long userId) {
+        likeDbStorage.likeFilm(filmId, userId);
+    }
+
+    public void unlikeFilm(Long filmId, Long userId) {
+        likeDbStorage.unlikeFilm(filmId, userId);
     }
 }

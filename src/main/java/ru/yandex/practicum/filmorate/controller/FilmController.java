@@ -45,7 +45,7 @@ public class FilmController {
         log.info("фильм изменен " + film.getName());
         return filmService.updateFilm(film);
     }
-/*
+
     @PutMapping("/{id}/like/{userId}")
     public void likeFilm(@PathVariable("id") long id, @PathVariable("userId") long userId) {
         filmService.likeFilm(id, userId);
@@ -54,7 +54,7 @@ public class FilmController {
     @DeleteMapping("/{id}/like/{userId}")
     public void unlikeFilm(@PathVariable("id") long id, @PathVariable("userId") long userId) {
         filmService.unlikeFilm(id, userId);
-    } */
+    }
 
     @GetMapping("/popular")
     public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
