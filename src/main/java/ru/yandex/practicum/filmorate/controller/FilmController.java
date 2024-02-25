@@ -54,10 +54,10 @@ public class FilmController {
     @DeleteMapping("/{id}/like/{userId}")
     public void unlikeFilm(@PathVariable("id") long id, @PathVariable("userId") long userId) {
         filmService.unlikeFilm(id, userId);
-    }
+    } */
 
     @GetMapping("/popular")
     public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
         return filmService.getPopular(count);
-    }*/
+    }
 }

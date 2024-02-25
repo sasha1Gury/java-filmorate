@@ -14,4 +14,6 @@ public interface FilmStorage {
     public List<Film> getAllFilms();
 
     public Film getFilmById(Long id);
+
+    public List<Film> getPopular(int count);
 }
