@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.GenreEnum;
 
@@ -27,7 +28,12 @@ public class GenresDbStorage {
     public Film.Genre getGenreById(long id) {
         String sqlQuery = "SELECT * FROM \"Genre\" g WHERE g.\"genre_id\" = ?; ";
 
-        return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenres, id);
+        try {
+            return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenres, id);
+        } catch (RuntimeException e) {
+            throw new NotFoundException(id + " не найден");
+        }
+
     }
 
     private Film.Genre mapRowToGenres(ResultSet resultSet, int rowNum) throws SQLException {
