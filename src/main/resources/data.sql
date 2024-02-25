@@ -1,9 +1,23 @@
-INSERT INTO "rating"  ("name") VALUES
-('G'),
-('PG'),
-('PG-13'),
-('R'),
-('NC-17');
+INSERT INTO "rating" ("name")
+SELECT 'G' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "rating" WHERE "name" = 'G')
+UNION ALL
+SELECT 'PG' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "rating" WHERE "name" = 'PG')
+UNION ALL
+SELECT 'PG-13' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "rating" WHERE "name" = 'PG-13')
+UNION ALL
+SELECT 'R' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "rating" WHERE "name" = 'R')
+UNION ALL
+SELECT 'NC-17' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "rating" WHERE "name" = 'NC-17');
 
-INSERT INTO "Genre" ("name") VALUES
-('Комедия'), ('Драма'), ('Мультфильм'), ('Триллер'), ('Документальный'), ('Боевик');
+INSERT INTO "Genre" ("name")
+SELECT 'Комедия' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "Genre" WHERE "name" = 'Комедия')
+UNION ALL
+SELECT 'Драма' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "Genre" WHERE "name" = 'Драма')
+UNION ALL
+SELECT 'Мультфильм' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "Genre" WHERE "name" = 'Мультфильм')
+UNION ALL
+SELECT 'Триллер' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "Genre" WHERE "name" = 'Триллер')
+UNION ALL
+SELECT 'Документальный' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "Genre" WHERE "name" = 'Документальный')
+UNION ALL
+SELECT 'Боевик' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM "Genre" WHERE "name" = 'Боевик');
