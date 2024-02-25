@@ -6,4 +6,4 @@ INSERT INTO "rating"  ("name") VALUES
 ('NC-17');
 
 INSERT INTO "Genre" ("name") VALUES
-('ACTION'), ('ADVENTURE'), ('COMEDY'), ('DRAMA'), ('CRIME'), ('HORROR');
+('Комедия'), ('Драма'), ('Мультфильм'), ('Триллер'), ('Документальный'), ('Боевик');
