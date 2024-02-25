@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.GenreEnum;
 import ru.yandex.practicum.filmorate.model.RatingMpa;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
@@ -101,12 +102,6 @@ public class FilmDbStorage implements FilmStorage {
     public Film getFilmById(Long id) {
         String sqlQuery = "SELECT * FROM \"Film\" WHERE \"film_id\" = ?";
 
-        String sqlQueryGenre = "SELECT g.\"name\" FROM \"Genre\" g \n" +
-                "JOIN \"film_genre\" fg ON g.\"genre_id\" = fg.\"genre_id\" \n" +
-                "JOIN \"Film\" f ON f.\"film_id\"=fg.\"film_id\" \n" +
-                "WHERE f.\"film_id\" = 2;";
-
-
         try {
             return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, id);
         } catch (RuntimeException e) {
@@ -146,6 +141,16 @@ public class FilmDbStorage implements FilmStorage {
         return jdbcTemplate.queryForObject(sqlQueryRating, this::mapRowToMPA, id);
     }
 
+    private List<Film.Genre> getGenreList(Long id) {
+        String sqlQueryGenre = "SELECT g.\"genre_id\", g.\"name\"\n" +
+                "FROM \"Genre\" g \n" +
+                "JOIN \"film_genre\" fg ON g.\"genre_id\" = fg.\"genre_id\" \n" +
+                "JOIN \"Film\" f ON f.\"film_id\" = fg.\"film_id\" \n" +
+                "WHERE f.\"film_id\" = ?;";
+
+        return jdbcTemplate.query(sqlQueryGenre, this::mapRowToGenres, id);
+    }
+
     private Film mapRowToFilm(ResultSet resultSet, int rowNum) throws SQLException {
         return new Film(
                 resultSet.getLong("film_id"),
@@ -155,14 +160,21 @@ public class FilmDbStorage implements FilmStorage {
                 resultSet.getInt("duration"),
                 resultSet.getInt("rate"),
                 getRatingMPA(resultSet.getLong("film_id")),
-                new ArrayList<>()
+                getGenreList(resultSet.getLong("film_id"))
         );
     }
 
     private Film.MPA mapRowToMPA(ResultSet resultSet, int rowNum) throws SQLException {
         Film.MPA obj = new Film.MPA();
         obj.setId(resultSet.getInt("rating_id"));
-        obj.setName(RatingMpa.valueOfDisplayName(resultSet.getString("name")));
+        obj.setName(RatingMpa.valueOfDisplayName(resultSet.getString("name")).toString());
+        return obj;
+    }
+
+    private Film.Genre mapRowToGenres(ResultSet resultSet, int rowNum) throws SQLException {
+        Film.Genre obj = new Film.Genre();
+        obj.setId(resultSet.getInt("genre_id"));
+        obj.setName(GenreEnum.valueOfDisplayName(resultSet.getString("name")).toString());
         return obj;
     }
 }
