@@ -15,8 +15,9 @@ import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Qualifier("FilmDbStorage")
@@ -68,6 +69,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
+        film.initializeNullFields();
         String sqlQuery = "UPDATE \"Film\" SET \"name\" = ?, \"description\" = ?, \"release_date\" = ?, \"duration\" = ?," +
                 " \"rating_id\" = ?, \"rate\" = ?" +
                 "WHERE \"film_id\" = ?";
@@ -76,6 +78,9 @@ public class FilmDbStorage implements FilmStorage {
                 film.getName(), film.getDescription(), Date.valueOf(film.getReleaseDate()),
                 film.getDuration(), film.getMpa().getId(), film.getRate(),
                 film.getId());
+
+        deleteGenres(film.getId());
+        setGenres(film.getId(), film.extractGenreIds());
 
         if (rowsNum < 1) {
             throw new NotFoundException(film.getId() + " не найден");
@@ -111,7 +116,6 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     public List<Film> getPopular(int count) {
-
         String sqlQuery = "SELECT * FROM \"Film\" f \n" +
                 "LEFT JOIN \"likes\" l ON f.\"film_id\" = l.\"film_id\" \n" +
                 "GROUP BY f.\"film_id\" \n" +
@@ -133,6 +137,12 @@ public class FilmDbStorage implements FilmStorage {
         }
     }
 
+    private void deleteGenres(Long film_id) {
+        String sqlQuery = "DELETE FROM \"film_genre\" WHERE \"film_id\" = ?;";
+
+        jdbcTemplate.update(sqlQuery, film_id);
+    }
+
     private Film.MPA getRatingMPA(Long id) {
         String sqlQueryRating = "SELECT * FROM \"rating\" r \n" +
                 "JOIN \"Film\" f ON f.\"rating_id\" = r.\"rating_id\"\n" +
@@ -141,14 +151,15 @@ public class FilmDbStorage implements FilmStorage {
         return jdbcTemplate.queryForObject(sqlQueryRating, this::mapRowToMPA, id);
     }
 
-    private List<Film.Genre> getGenreList(Long id) {
+    private Set<Film.Genre> getGenreList(Long id) {
         String sqlQueryGenre = "SELECT g.\"genre_id\", g.\"name\"\n" +
                 "FROM \"Genre\" g \n" +
                 "JOIN \"film_genre\" fg ON g.\"genre_id\" = fg.\"genre_id\" \n" +
                 "JOIN \"Film\" f ON f.\"film_id\" = fg.\"film_id\" \n" +
                 "WHERE f.\"film_id\" = ?;";
 
-        return jdbcTemplate.query(sqlQueryGenre, this::mapRowToGenres, id);
+        List<Film.Genre> genres = jdbcTemplate.query(sqlQueryGenre, this::mapRowToGenres, id);
+        return new LinkedHashSet<>(genres);
     }
 
     private Film mapRowToFilm(ResultSet resultSet, int rowNum) throws SQLException {
