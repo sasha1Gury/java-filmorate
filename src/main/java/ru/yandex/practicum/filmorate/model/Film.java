@@ -49,7 +49,7 @@ public class Film {
     @AllArgsConstructor
     public static class MPA {
         private int id;
-        private RatingMpa name;
+        private String name;
         public MPA() {
 
         }
@@ -60,8 +60,15 @@ public class Film {
     }
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Genre {
         private long id;
+        private String name;
+
+        public Genre(int id) {
+            this.id = id;
+        }
     }
 
     public List<Long> extractGenreIds() {
