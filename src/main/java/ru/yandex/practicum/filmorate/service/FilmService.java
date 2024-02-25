@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class FilmService {
     private final FilmStorage filmStorage;
 
-    public FilmService(FilmStorage filmStorage) {
+    public FilmService(@Qualifier("InMemoryFilmStorage") FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
     }
 
@@ -37,7 +37,7 @@ public class FilmService {
         filmStorage.deleteFilm(id);
     }
 
-     public void likeFilm(Long filmId, Long userId) {
+/*     public void likeFilm(Long filmId, Long userId) {
          Film film = filmStorage.getFilmById(filmId);
          if (film != null && !film.getLikes().contains(userId)) {
              film.addLike(userId);
@@ -59,5 +59,5 @@ public class FilmService {
         if (film.getLikes().contains(userId)) {
             film.deleteLike(userId);
         } else throw new NotFoundException(String.format("Пользователь с id " + userId + " не ставил лайк"));
-    }
+    }*/
 }
