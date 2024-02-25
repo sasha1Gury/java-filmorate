@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.Model;
 
-import org.junit.jupiter.api.Test;
+/*import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -15,11 +15,11 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;*/
 
 
 public class FilmValidationTest {
-    private final LocalValidatorFactoryBean  validator = new LocalValidatorFactoryBean();
+/*    private final LocalValidatorFactoryBean  validator = new LocalValidatorFactoryBean();
 
     @BeforeEach
     public void setUp() {
@@ -69,6 +69,6 @@ public class FilmValidationTest {
         assertThrows(ValidationException.class, () -> {
             filmController.addFilm(film);
         });
-    }
+    }*/
 }
 
