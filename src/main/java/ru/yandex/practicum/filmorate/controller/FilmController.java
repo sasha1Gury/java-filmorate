@@ -32,13 +32,11 @@ public class FilmController {
         return filmService.getAllFilms();
     }
 
-
     @PostMapping
     public Film addFilm(@Valid @RequestBody Film film) {
         log.info("Создан фильм " + film.getName());
         return filmService.addFilm(film);
     }
-
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {

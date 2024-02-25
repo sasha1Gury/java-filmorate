@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS "friends"(
     "user2_id" BIGINT NOT NULL,
     "status" VARCHAR(255) NOT NULL
 );
+
 ALTER TABLE
     "film_genre" ADD CONSTRAINT "film_genre_film_id_foreign" FOREIGN KEY("film_id") REFERENCES "Film"("film_id");
 ALTER TABLE
@@ -61,6 +62,7 @@ ALTER TABLE
     "likes" ADD CONSTRAINT "likes_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "Users"("user_id");
 ALTER TABLE
     "Film" ADD CONSTRAINT "film_rating_id_foreign" FOREIGN KEY("rating_id") REFERENCES "rating"("rating_id");
+
 ALTER TABLE "Users" ALTER COLUMN "user_id" BIGINT AUTO_INCREMENT;
 ALTER TABLE "Film" ALTER COLUMN "film_id" BIGINT AUTO_INCREMENT;
 ALTER TABLE "Genre" ALTER COLUMN "genre_id" BIGINT AUTO_INCREMENT;
