@@ -115,6 +115,17 @@ public class FilmDbStorage implements FilmStorage {
 
     }
 
+    public List<Film> getPopular(int count) {
+
+        String sqlQuery = "SELECT * FROM \"Film\" f \n" +
+                "LEFT JOIN \"likes\" l ON f.\"film_id\" = l.\"film_id\" \n" +
+                "GROUP BY f.\"film_id\" \n" +
+                "ORDER BY f.\"film_id\" DESC\n" +
+                "LIMIT ?;";
+
+        return jdbcTemplate.query(sqlQuery, this::mapRowToFilm, count);
+    }
+
     private boolean isBefore1895(Film film) {
         LocalDate date = LocalDate.of(1895, 12, 28);
         return !film.getReleaseDate().isAfter(date);
@@ -151,7 +162,7 @@ public class FilmDbStorage implements FilmStorage {
     private Film.MPA mapRowToMPA(ResultSet resultSet, int rowNum) throws SQLException {
         Film.MPA obj = new Film.MPA();
         obj.setId(resultSet.getInt("rating_id"));
-        obj.setName(RatingMpa.valueOf(resultSet.getString("name")));
+        obj.setName(RatingMpa.valueOfDisplayName(resultSet.getString("name")));
         return obj;
     }
 }

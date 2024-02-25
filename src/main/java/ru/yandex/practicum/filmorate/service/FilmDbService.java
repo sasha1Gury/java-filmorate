@@ -35,4 +35,8 @@ public class FilmDbService {
     public List<Film> getAllFilms() {
         return filmDbStorage.getAllFilms();
     }
+
+    public List<Film> getPopular(int count) {
+        return filmDbStorage.getPopular(count);
+    }
 }
