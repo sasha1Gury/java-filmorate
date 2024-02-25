@@ -25,7 +25,6 @@ public class FriendsDbStorage {
         } catch (RuntimeException e) {
             throw new NotFoundException("id не наден");
         }
-
     }
 
     public void deleteFriend(Long id, Long friendId) {

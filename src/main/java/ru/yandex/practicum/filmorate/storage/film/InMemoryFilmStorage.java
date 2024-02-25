@@ -37,10 +37,10 @@ public class InMemoryFilmStorage implements FilmStorage {
                     film.getName()));
         }
 
-        film.setId(idCounter++);
+        /*film.setId(idCounter++);
         //film.setLikes(new HashSet<>());
         films.put(film.getId(), film);
-        log.info("Создан фильм " + film.getName());
+        log.info("Создан фильм " + film.getName());*/
 
         return film;
     }
@@ -55,11 +55,11 @@ public class InMemoryFilmStorage implements FilmStorage {
             throw new ValidationException(String.format("Неверная дата фильма " + film.getName()));
         }
 
-        if (films.containsKey(film.getId())) {
+      /*  if (films.containsKey(film.getId())) {
             //film.setLikes(new HashSet<>());
             log.info("Фильм " + films.get(film.getId()).getName() +  " перезаписан на " + film.getName());
             films.put(film.getId(), film);
-        } else throw new NotFoundException(String.format("Фильм с id " + film.getId() + " не найден "));
+        } else throw new NotFoundException(String.format("Фильм с id " + film.getId() + " не найден "));*/
 
         return film;
     }
@@ -85,5 +85,10 @@ public class InMemoryFilmStorage implements FilmStorage {
         }
 
         return films.get(id);
+    }
+
+    @Override
+    public List<Film> getPopular(int count) {
+        return null;
     }
 }

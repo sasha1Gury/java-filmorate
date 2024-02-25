@@ -35,27 +35,4 @@ public class FilmService {
         filmStorage.deleteFilm(id);
     }
 
-/*     public void likeFilm(Long filmId, Long userId) {
-         Film film = filmStorage.getFilmById(filmId);
-         if (film != null && !film.getLikes().contains(userId)) {
-             film.addLike(userId);
-         }
-     }
-
-    public List<Film> getPopular(int count) {
-        return filmStorage.getAllFilms().stream()
-                .sorted(Comparator.comparingInt(Film::getLikeCount).reversed())
-                .limit(count)
-                .collect(Collectors.toList());
-    }
-
-    public void unlikeFilm(Long filmId, Long userId) {
-        Film film = filmStorage.getFilmById(filmId);
-        if (film == null) {
-            throw new NotFoundException(String.format("Фильма с id " + filmId + " не существует"));
-        }
-        if (film.getLikes().contains(userId)) {
-            film.deleteLike(userId);
-        } else throw new NotFoundException(String.format("Пользователь с id " + userId + " не ставил лайк"));
-    }*/
 }

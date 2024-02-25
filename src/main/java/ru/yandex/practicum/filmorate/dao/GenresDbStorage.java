@@ -33,7 +33,6 @@ public class GenresDbStorage {
         } catch (RuntimeException e) {
             throw new NotFoundException(id + " не найден");
         }
-
     }
 
     private Film.Genre mapRowToGenres(ResultSet resultSet, int rowNum) throws SQLException {

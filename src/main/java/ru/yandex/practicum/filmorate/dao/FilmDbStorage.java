@@ -112,7 +112,6 @@ public class FilmDbStorage implements FilmStorage {
         } catch (RuntimeException e) {
             throw new NotFoundException("id - " + id + " не найден");
         }
-
     }
 
     public List<Film> getPopular(int count) {

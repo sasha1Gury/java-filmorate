@@ -15,5 +15,4 @@ public interface UserStorage {
 
     public List<User> getAllUsers();
 
-    //public List<User> getUserFriends(User user);
 }

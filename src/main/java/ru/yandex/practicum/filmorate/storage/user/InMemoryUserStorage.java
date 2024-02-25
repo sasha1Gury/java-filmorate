@@ -66,14 +66,14 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(id);
     }
 
-    //public List<User> getUserFriends(User user) {
-        //List<User> friends = new ArrayList<>();
-        //List<Long> friendsId = new ArrayList<>(user.getFriends());
-        //for (long i : friendsId) {
-        //    User user1 = getUserById(i);
-        //    friends.add(user1);
-        //}
+  /*  public List<User> getUserFriends(User user) {
+        List<User> friends = new ArrayList<>();
+        List<Long> friendsId = new ArrayList<>(user.getFriends());
+        for (long i : friendsId) {
+            User user1 = getUserById(i);
+            friends.add(user1);
+        }
 
-        //return friends;
-    //}
+        return friends;
+    }*/
 }
