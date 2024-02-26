@@ -99,14 +99,17 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public List<Film> getAllFilms() {
-        String sqlQuery = "Select * from \"film\"";
+        String sqlQuery = "SELECT * FROM \"film\"\n" +
+                "JOIN \"rating\" ON \"film\".\"rating_id\" = \"rating\".\"rating_id\";";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToFilm);
     }
 
     @Override
     public Film getFilmById(Long id) {
-        String sqlQuery = "SELECT * FROM \"film\" WHERE \"film_id\" = ?";
+        String sqlQuery = "SELECT * FROM \"film\"\n" +
+                "JOIN \"rating\" ON \"film\".\"rating_id\" = \"rating\".\"rating_id\"\n" +
+                "WHERE \"film\".\"film_id\" = ?;";
 
         try {
             return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, id);
@@ -116,10 +119,11 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     public List<Film> getPopular(int count) {
-        String sqlQuery = "SELECT * FROM \"film\" f \n" +
-                "LEFT JOIN \"likes\" l ON f.\"film_id\" = l.\"film_id\" \n" +
-                "GROUP BY f.\"film_id\" \n" +
-                "ORDER BY f.\"film_id\" DESC\n" +
+        String sqlQuery = "SELECT * FROM \"film\" \n" +
+                "JOIN \"rating\" ON \"film\".\"rating_id\" = \"rating\".\"rating_id\"\n" +
+                "LEFT JOIN \"likes\" l ON \"film\".\"film_id\" = l.\"film_id\"\n" +
+                "GROUP BY \"film\".\"film_id\"\n" +
+                "ORDER BY \"film\".\"film_id\" DESC\n" +
                 "LIMIT ?;";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToFilm, count);
@@ -153,14 +157,6 @@ public class FilmDbStorage implements FilmStorage {
         jdbcTemplate.update(sqlQuery, film_id);
     }
 
-    private Film.MPA getRatingMPA(Long id) {
-        String sqlQueryRating = "SELECT * FROM \"rating\" r \n" +
-                "JOIN \"film\" f ON f.\"rating_id\" = r.\"rating_id\"\n" +
-                "WHERE f.\"film_id\" = ?;";
-
-        return jdbcTemplate.queryForObject(sqlQueryRating, this::mapRowToMPA, id);
-    }
-
     private Set<Film.Genre> getGenreList(Long id) {
         String sqlQueryGenre = "SELECT g.\"genre_id\", g.\"name\"\n" +
                 "FROM \"genre\" g \n" +
@@ -174,22 +170,16 @@ public class FilmDbStorage implements FilmStorage {
 
     private Film mapRowToFilm(ResultSet resultSet, int rowNum) throws SQLException {
         return new Film(
-                resultSet.getLong("film_id"),
-                resultSet.getString("name"),
-                resultSet.getString("description"),
-                resultSet.getDate("release_date").toLocalDate(),
-                resultSet.getInt("duration"),
-                resultSet.getInt("rate"),
-                getRatingMPA(resultSet.getLong("film_id")),
-                getGenreList(resultSet.getLong("film_id"))
+                resultSet.getLong("film.film_id"),
+                resultSet.getString("film.name"),
+                resultSet.getString("film.description"),
+                resultSet.getDate("film.release_date").toLocalDate(),
+                resultSet.getInt("film.duration"),
+                resultSet.getInt("film.rate"),
+                new Film.MPA(resultSet.getInt("rating.rating_id"),
+                        RatingMpa.valueOfDisplayName(resultSet.getString("rating.name")).toString()),
+                getGenreList(resultSet.getLong("film.film_id"))
         );
-    }
-
-    private Film.MPA mapRowToMPA(ResultSet resultSet, int rowNum) throws SQLException {
-        Film.MPA obj = new Film.MPA();
-        obj.setId(resultSet.getInt("rating_id"));
-        obj.setName(RatingMpa.valueOfDisplayName(resultSet.getString("name")).toString());
-        return obj;
     }
 
     private Film.Genre mapRowToGenres(ResultSet resultSet, int rowNum) throws SQLException {
