@@ -30,7 +30,7 @@ public class UserDbStorage implements UserStorage {
         if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
-        String sqlQuery = "INSERT INTO \"Users\" (\"email\", \"login\", \"name\", \"birthday\") VALUES (?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO \"users\" (\"email\", \"login\", \"name\", \"birthday\") VALUES (?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -54,7 +54,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        String sqlQuery = "UPDATE \"Users\" SET \"email\" = ?, " +
+        String sqlQuery = "UPDATE \"users\" SET \"email\" = ?, " +
                 "\"login\" = ?, \"name\" = ?, \"birthday\" = ? " +
                 "WHERE \"user_id\" = ?;";
 
@@ -70,7 +70,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public void deleteUser(long id) {
-        String sqlQuery = "DELETE FROM \"Users\" where \"user_id\" = ?";
+        String sqlQuery = "DELETE FROM \"users\" where \"user_id\" = ?";
 
         jdbcTemplate.update(sqlQuery, id);
 
@@ -78,7 +78,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User getUserById(long id) {
-        String sqlQuery = "SELECT * FROM \"Users\" WHERE \"user_id\" = ?";
+        String sqlQuery = "SELECT * FROM \"users\" WHERE \"user_id\" = ?";
         try {
             return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id);
         } catch (RuntimeException e) {
@@ -88,14 +88,14 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public List<User> getAllUsers() {
-        String sqlQuery = "Select * from \"Users\"";
+        String sqlQuery = "Select * from \"users\"";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToUser);
     }
 
     //@Override
     public List<User> getUserFriends(User user) {
-        String sqlQuery = "Select * from \"Users\" u " +
+        String sqlQuery = "Select * from \"users\" u " +
                 "LEFT JOIN friends f on u.user_id=f.user1_id" +
                 "WHERE user_id = ?";
 

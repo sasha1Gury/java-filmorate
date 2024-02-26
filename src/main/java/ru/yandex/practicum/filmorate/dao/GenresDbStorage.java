@@ -20,13 +20,13 @@ public class GenresDbStorage {
     }
 
     public List<Film.Genre> getAllGenres() {
-        String sqlQuery = "SELECT * FROM \"Genre\" g ";
+        String sqlQuery = "SELECT * FROM \"genre\" g ";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToGenres);
     }
 
     public Film.Genre getGenreById(long id) {
-        String sqlQuery = "SELECT * FROM \"Genre\" g WHERE g.\"genre_id\" = ?; ";
+        String sqlQuery = "SELECT * FROM \"genre\" g WHERE g.\"genre_id\" = ?; ";
 
         try {
             return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToGenres, id);

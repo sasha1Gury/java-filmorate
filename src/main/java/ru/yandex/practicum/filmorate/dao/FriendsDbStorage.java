@@ -35,7 +35,7 @@ public class FriendsDbStorage {
 
     public List<User> getAllFriend(Long id) {
         String sqlQuery = "Select * from \"friends\" f " +
-                "LEFT JOIN \"Users\" u on f.\"user2_id\"=u.\"user_id\"" +
+                "LEFT JOIN \"users\" u on f.\"user2_id\"=u.\"user_id\"" +
                 "WHERE f.\"user1_id\" = ?";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToUser, id);
@@ -46,12 +46,12 @@ public class FriendsDbStorage {
                 "FROM\n" +
                 "    (SELECT *\n" +
                 "     FROM \"friends\" F1\n" +
-                "     JOIN \"Users\" U ON U.\"user_id\" = F1.\"user2_id\"\n" +
+                "     JOIN \"users\" U ON U.\"user_id\" = F1.\"user2_id\"\n" +
                 "     WHERE F1.\"user1_id\" = ?) AS T1\n" +
                 "JOIN\n" +
                 "    (SELECT *\n" +
                 "     FROM \"friends\" F2\n" +
-                "     JOIN \"Users\" U ON U.\"user_id\" = F2.\"user2_id\"\n" +
+                "     JOIN \"users\" U ON U.\"user_id\" = F2.\"user2_id\"\n" +
                 "     WHERE F2.\"user1_id\" = ?) AS T2\n" +
                 "ON T1.\"user2_id\" = T2.\"user2_id\";";
 

@@ -39,7 +39,7 @@ public class FilmDbStorage implements FilmStorage {
                     film.getName()));
         }
 
-        String sqlQuery = "INSERT INTO \"Film\" (\"name\", \"description\", \"release_date\", \"duration\"," +
+        String sqlQuery = "INSERT INTO \"film\" (\"name\", \"description\", \"release_date\", \"duration\"," +
                 " \"rating_id\", \"rate\") VALUES (?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -70,7 +70,7 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Film updateFilm(Film film) {
         film.initializeNullFields();
-        String sqlQuery = "UPDATE \"Film\" SET \"name\" = ?, \"description\" = ?, \"release_date\" = ?, \"duration\" = ?," +
+        String sqlQuery = "UPDATE \"film\" SET \"name\" = ?, \"description\" = ?, \"release_date\" = ?, \"duration\" = ?," +
                 " \"rating_id\" = ?, \"rate\" = ?" +
                 "WHERE \"film_id\" = ?";
 
@@ -91,21 +91,21 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public void deleteFilm(long id) {
-        String sqlQuery = "DELETE FROM \"Film\" where \"film_id\" = ?";
+        String sqlQuery = "DELETE FROM \"film\" where \"film_id\" = ?";
 
         jdbcTemplate.update(sqlQuery, id);
     }
 
     @Override
     public List<Film> getAllFilms() {
-        String sqlQuery = "Select * from \"Film\"";
+        String sqlQuery = "Select * from \"film\"";
 
         return jdbcTemplate.query(sqlQuery, this::mapRowToFilm);
     }
 
     @Override
     public Film getFilmById(Long id) {
-        String sqlQuery = "SELECT * FROM \"Film\" WHERE \"film_id\" = ?";
+        String sqlQuery = "SELECT * FROM \"film\" WHERE \"film_id\" = ?";
 
         try {
             return jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, id);
@@ -115,7 +115,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     public List<Film> getPopular(int count) {
-        String sqlQuery = "SELECT * FROM \"Film\" f \n" +
+        String sqlQuery = "SELECT * FROM \"film\" f \n" +
                 "LEFT JOIN \"likes\" l ON f.\"film_id\" = l.\"film_id\" \n" +
                 "GROUP BY f.\"film_id\" \n" +
                 "ORDER BY f.\"film_id\" DESC\n" +
@@ -144,7 +144,7 @@ public class FilmDbStorage implements FilmStorage {
 
     private Film.MPA getRatingMPA(Long id) {
         String sqlQueryRating = "SELECT * FROM \"rating\" r \n" +
-                "JOIN \"Film\" f ON f.\"rating_id\" = r.\"rating_id\"\n" +
+                "JOIN \"film\" f ON f.\"rating_id\" = r.\"rating_id\"\n" +
                 "WHERE f.\"film_id\" = ?;";
 
         return jdbcTemplate.queryForObject(sqlQueryRating, this::mapRowToMPA, id);
@@ -152,9 +152,9 @@ public class FilmDbStorage implements FilmStorage {
 
     private Set<Film.Genre> getGenreList(Long id) {
         String sqlQueryGenre = "SELECT g.\"genre_id\", g.\"name\"\n" +
-                "FROM \"Genre\" g \n" +
+                "FROM \"genre\" g \n" +
                 "JOIN \"film_genre\" fg ON g.\"genre_id\" = fg.\"genre_id\" \n" +
-                "JOIN \"Film\" f ON f.\"film_id\" = fg.\"film_id\" \n" +
+                "JOIN \"film\" f ON f.\"film_id\" = fg.\"film_id\" \n" +
                 "WHERE f.\"film_id\" = ?;";
 
         List<Film.Genre> genres = jdbcTemplate.query(sqlQueryGenre, this::mapRowToGenres, id);
