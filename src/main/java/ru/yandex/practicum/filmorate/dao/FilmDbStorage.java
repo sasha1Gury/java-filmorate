@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -131,9 +132,19 @@ public class FilmDbStorage implements FilmStorage {
 
     private void setGenres(Long filmId, List<Long> genreIds) {
         String sqlQueryGenres = "INSERT INTO \"film_genre\" (\"film_id\", \"genre_id\") VALUES (?, ?)";
-        for (Long genreId : genreIds) {
-            jdbcTemplate.update(sqlQueryGenres, filmId, genreId);
-        }
+
+        jdbcTemplate.batchUpdate(sqlQueryGenres, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setLong(1, filmId);
+                ps.setLong(2, genreIds.get(i));
+            }
+
+            @Override
+            public int getBatchSize() {
+                return genreIds.size();
+            }
+        });
     }
 
     private void deleteGenres(Long film_id) {
